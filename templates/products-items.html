@@ -1,0 +1,83 @@
+<table class="table table-bordered table-striped mb-0" id="products-container">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>EAN</th>
+            <th>PRICE</th>
+            <th>
+                {% if enable_search_logic %}
+                    <a href="{{ url_for('search_products') }}" class="btn btn-sm btn-danger w-100">Reset</a>
+                {% endif %}
+            </th>
+        </tr>
+        {% if enable_search_logic %}
+        <tr>
+            <th><input
+                    class="form-control form-control-sm search-param"
+                    type="text"
+                    value="{{ request.args.get('id', '') }}"
+                    name="id"></th>
+            <th><input
+                    class="form-control form-control-sm search-param"
+                    type="text"
+                    value="{{ request.args.get('name', '') }}"
+                    name="name"></th>
+            <th><input
+                    class="form-control form-control-sm search-param"
+                    type="text"
+                    value="{{ request.args.get('ean', '') }}"
+                    name="ean"></th>
+            <th>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><small>from</small></span>
+                            <input
+                                class="form-control form-control-sm search-param"
+                                type="text"
+                                value="{{ request.args.get('price_gte', '') }}"
+                                name="price_gte">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><small>to</small></span>
+                            <input
+                                class="form-control form-control-sm search-param"
+                                type="text"
+                                value="{{ request.args.get('price_lte', '') }}"
+                                name="price_lte">
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th>
+                <button
+                    class="btn btn-sm btn-primary w-100"
+                    id="search-products"
+                    data-js-search-route="{{ url_for('search_products') }}">Search</button>
+            </th>
+        </tr>
+        {% endif %}
+    </thead>
+    <tbody>
+        {% if products %}
+            {% for product in products -%}
+                <tr>
+                    <td class="align-middle">{{ product.id }}</td>
+                    <td class="align-middle">{{ product.name }}</td>
+                    <td class="align-middle">{{ product.ean }}</td>
+                    <td class="align-middle">{{ product.price }}</td>
+                    <td class="text-center"><a href="{{ url_for('show_single_product', product_id=product.id) }}">Show</a></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5">
+                    <div class="text-center text-uppercase">Products are not available.</div>
+                </td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

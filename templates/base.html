@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Python Example</title>
+        <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="navbar navbar-expand navbar-dark bg-primary">
+            <div class="container">
+                <span class="navbar-brand">Python</span>
+                <div class="navbar-nav text-uppercase">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link {%if request.url_rule.endpoint == 'show_all_products' %}active{% endif%}" href="{{ url_for('show_all_products') }}">All Products</a>
+                        <a class="nav-item nav-link {%if request.url_rule.endpoint == 'split_products_by_pages' %}active{% endif%}" href="{{ url_for('split_products_by_pages') }}">Pages</a>
+                        <a class="nav-item nav-link {%if request.url_rule.endpoint == 'search_products' %}active{% endif%}" href="{{ url_for('search_products') }}">Search</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container p-5">
+            {%- block content %}{% endblock %}
+        </div>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+    </body>
+</html>
